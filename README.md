@@ -12,6 +12,22 @@ This project aims to develop a low-cost fish detection model that can run on a R
 ## Data Collection
 Training data is provided by Anadrom and Nordavind Utvikling AS. The data consists of labeled video frames captured from monitoring stations across Norwegian rivers.
 
+#### Data segmentation
+```
+/dataset
+│── /train_data       # Training images 
+│   ├── /fish
+│   ├── /nofish
+│
+│── /validation_data  # Validation images
+│   ├── /fish
+│   ├── /nofish
+│
+│── /test_data        # Final test images
+│   ├── /fish
+│   ├── /nofish
+```
+
 ## Methodology
 1. **Image Preprocessing**: 
    - Expand the training data using techniques such as data augmentation.
