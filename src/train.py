@@ -4,6 +4,7 @@ import numpy as np
 import cv2
 import os
 from sklearn.model_selection import train_test_split
+from tensorflow.python.keras.engine import data_adapter
 
 # Set dataset path
 dataset_path = "dataset/"
@@ -40,17 +41,21 @@ X = X / 255.0
 # Split into training and validation sets
 X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Define CNN model
-model = models.Sequential([
-    # Images analysed will be 64x64x1 images, analysing the luminance.
-    layers.Conv2D(16, (3,3), activation='relu', input_shape=(64, 64, 1)), 
-    layers.MaxPooling2D(2,2),
-    
-    layers.Conv2D(32, (3,3), activation='relu'),
-    layers.MaxPooling2D(2,2),
 
-    layers.Conv2D(64, (3,3), activation='relu'),
-    layers.MaxPooling2D(2,2),
+
+print(X_train.shape)
+
+# Define CNN model
+cnn = models.Sequential([
+    # Images analysed will be 64x64x1 images, analysing the luminance.
+    layers.Conv2D(filters=16, kernel_size=(3,3), activation='relu', input_shape=(64, 64, 1)), 
+    layers.MaxPooling2D(pool_size=(2,2)),
+    
+    layers.Conv2D(filters=32, kernel_size=(3,3), activation='relu'),
+    layers.MaxPooling2D(pool_size=(2,2)),
+
+    layers.Conv2D(filters=64, kernel_size=(3,3), activation='relu'),
+    layers.MaxPooling2D(pool_size=(2,2)),
 
     layers.Flatten(),
     layers.Dense(64, activation='relu'),
@@ -59,31 +64,49 @@ model = models.Sequential([
 ])
 
 # Compile the model
-model.compile(optimizer='adam',
+cnn.compile(optimizer='adam',
               loss='binary_crossentropy',
               metrics=['accuracy'])
 
 # Print model summary
-model.summary()
+cnn.summary()
 
+def _is_distributed_dataset(ds):
+    return isinstance(ds, data_adapter.input_lib.DistributedDatasetSpec)
+
+data_adapter._is_distributed_dataset = _is_distributed_dataset
 
 # Train model
-history = model.fit(
-    X_train, y_train,
-    epochs=15, batch_size=16,
+cnn.fit(
+    X_train, 
+    y_train, 
+    epochs=10,
+    batch_size=32,
     validation_data=(X_val, y_val)
 )
 
+y_pred = cnn.predict(X_val)
+y_pred[:5]
+
+
+print(y_pred[:10])
+print(y_val[:10])
+
+
+'''
+from keras import __version__
+tf.keras.__version__ = __version__
+print(tf.keras.__version__)
 # Save trained model
-model.save("fish_detector.h5")
+cnn.save("fish_detector.h5")
+
 
 # Convert model to TensorFlow Lite format
-converter = tf.lite.TFLiteConverter.from_keras_model(model)
+converter = tf.lite.TFLiteConverter.from_keras_model(cnn)
 converter.optimizations = [tf.lite.Optimize.DEFAULT]  # Enable quantization for speed
 tflite_model = converter.convert()
 
 # Save the TFLite model
 with open("fish_detector.tflite", "wb") as f:
     f.write(tflite_model)
-
-
+'''
