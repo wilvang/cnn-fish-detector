@@ -1,23 +1,25 @@
 import cv2
 import tensorflow as tf
 import numpy as np
+import main
 
-def load_model(model_path):
-    return tf.keras.models.load_model(model_path)
 
 def detect_fish(frame, model):
-    gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    resized_frame = cv2.resize(gray_frame, (128, 128))
+    frame_ycbcr = cv2.cvtColor(frame, cv2.COLOR_BGR2YCrCb)
+    frame_y = frame_ycbcr[:, :, 0]
+    resized_frame = cv2.resize(frame_y, (64, 64))
     normalized_frame = resized_frame / 255.0
     input_frame = np.expand_dims(normalized_frame, axis=(0, -1))
     
     prediction = model.predict(input_frame)
     return prediction[0][0] > 0.5
 
-def main():
-    model_path = "fish_detection_model.h5"
-    model = load_model(model_path)
+def capture():
+    # model_path = "fish_detection_model.h5"
+    # model = load_model(model_path)
     
+    #model = main.main()
+
     cap = cv2.VideoCapture(0)
     
     while True:
@@ -39,4 +41,4 @@ def main():
     cv2.destroyAllWindows()
 
 if __name__ == "__main__":
-    main()
+    capture()
