@@ -43,7 +43,7 @@ Training data is provided by Anadrom and Nordavind Utvikling AS. The data consis
 
 ## Requirements
 - Raspberry Pi
-- Python 3.11
+- Python 3.9
 - OpenCV
 - TensorFlow/Keras
 - Labeled training data from Anadrom and Nordavind Utvikling AS
