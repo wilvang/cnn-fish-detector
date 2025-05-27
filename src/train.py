@@ -32,7 +32,7 @@ def build_model(X_train, y_train, X_val, y_val):
     cnn.fit(
         X_train, 
         y_train, 
-        epochs=4,
+        epochs=10,
         batch_size=32,
         validation_data=(X_val, y_val)
     )
