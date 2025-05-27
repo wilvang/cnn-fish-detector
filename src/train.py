@@ -25,8 +25,7 @@ def build_model(X_train, y_train, X_val, y_val):
     cnn.compile(optimizer='adam',
                 loss='binary_crossentropy',
                 metrics=['accuracy'])
-
-    #data_adapter._is_distributed_dataset = _is_distributed_dataset
+    
 
     # Train model
     cnn.fit(
