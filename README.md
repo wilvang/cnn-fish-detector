@@ -5,7 +5,8 @@
 This project presents a low-cost fish detection system designed to run on a Raspberry Pi. It uses live video surveillance to detect the presence of fish in Norwegian rivers, automating fish population monitoring. The system is built using a custom-trained Convolutional Neural Network (CNN) and optimized for real-time performance on embedded hardware.
 
 > **Collaboration**: Anadrom & Nordavind Utvikling AS <br>
-> **Platform**: Raspberry Pi <br> > **Frameworks**: TensorFlow/Keras, OpenCV, TFLite (for deployment<br>
+> **Platform**: Raspberry Pi <br>
+> **Frameworks**: TensorFlow/Keras, OpenCV, TFLite (for deployment<br>
 
 ## Objectives
 
