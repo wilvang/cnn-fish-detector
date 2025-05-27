@@ -40,7 +40,7 @@ def zoom(img):
    
 
 def augment_images(X, y):
-    techniques = [gaussian_noise, rotate_image, mirror, brightness]
+    techniques = [gaussian_noise, rotate_image, mirror, brightness, zoom]
     X_augmented, y_augmented = [], []
 
     for img, label in zip(X, y):
