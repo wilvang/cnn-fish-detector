@@ -6,7 +6,7 @@ This project presents a low-cost fish detection system designed to run on a Rasp
 
 > **Collaboration**: Anadrom & Nordavind Utvikling AS <br>
 > **Platform**: Raspberry Pi <br>
-> **Frameworks**: TensorFlow/Keras, OpenCV, TFLite (for deployment<br>
+> **Frameworks**: TensorFlow/Keras, OpenCV, TFLite (for deployment) <br>
 
 ## Objectives
 
